@@ -76,7 +76,7 @@ func mjpegCapture() {
 		}
 
 		// detect faces
-		rects := classifier.DetectMultiScale(img)
+		rects := classifier.DetectMultiScaleWithParams(img, 1.5, 6, 0, image.Pt(0, 0), image.Pt(0, 0))
 		fmt.Printf("found %d faces\n", len(rects))
 
 		// draw a rectangle around each face on the original image,
