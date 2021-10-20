@@ -82,11 +82,19 @@ func mjpegCapture() {
 		// draw a rectangle around each face on the original image,
 		// along with text identifying as "Human"
 		for _, r := range rects {
-			gocv.Rectangle(&img, r, blue, 3)
+			//gocv.Rectangle(&img, r, blue, 3)
 
-			size := gocv.GetTextSize("Human", gocv.FontHersheyPlain, 1.2, 2)
-			pt := image.Pt(r.Min.X+(r.Min.X/2)-(size.X/2), r.Min.Y-2)
-			gocv.PutText(&img, "Human", pt, gocv.FontHersheyPlain, 1.2, blue, 2)
+			center := image.Point{X: (r.Min.X + ((r.Max.X - r.Min.X) / 2)), Y: (r.Min.Y + ((r.Max.Y - r.Min.Y) / 2))}
+
+			radius := (r.Max.X - r.Min.X) / 2
+
+			thickness := -1
+
+			gocv.Circle(&img, center, radius, blue, thickness)
+
+			//size := gocv.GetTextSize("Human", gocv.FontHersheyPlain, 1.2, 2)
+			//pt := image.Pt(r.Min.X+(r.Min.X/2)-(size.X/2), r.Min.Y-2)
+			//gocv.PutText(&img, "Human", pt, gocv.FontHersheyPlain, 1.2, blue, 2)
 		}
 
 		buf, _ := gocv.IMEncode(".jpg", img)
